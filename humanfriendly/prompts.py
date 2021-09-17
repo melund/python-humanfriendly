@@ -18,6 +18,7 @@ by rendering interactive prompts on the terminal.
 # Standard library modules.
 import logging
 import sys
+import platform
 
 # Modules included in our package.
 from humanfriendly.compat import interactive_prompt
@@ -341,7 +342,12 @@ def prepare_friendly_prompts():
     This function is called by the other functions in this module to enable
     user friendly prompts.
     """
-    import readline  # NOQA
+    try:
+        import readline  # NOQA
+    except ImportError as err:
+        if not platform.system() == "Widnows":
+            raise err
+        
 
 
 def retry_limit(limit=MAX_ATTEMPTS):
